@@ -10,7 +10,7 @@ dependencies = ["numpy>=2", "pandas>=2.2", "scipy>=1.15", "arch>=7.2", "yfinance
 theta = ["thetadata>=1.0.9; python_version >= '3.12'", "python-dotenv>=1"]
 stock-study = ["QuantLib>=1.40", "thetadata>=1.0.9; python_version >= '3.12'", "python-dotenv>=1"]
 ml = ["scikit-learn>=1.7,<2", "QuantLib>=1.40", "thetadata>=1.0.9; python_version >= '3.12'", "python-dotenv>=1"]
-test = ["scikit-learn>=1.7,<2", "QuantLib>=1.40", "python-dotenv>=1", "joblib>=1.4", "threadpoolctl>=3.5"]
+test = ["scikit-learn>=1.7,<2", "QuantLib>=1.40", "python-dotenv>=1", "joblib>=1.4", "threadpoolctl>=3.5", "thetadata>=1.0.9"]
 
 [project.urls]
 Repository = "https://github.com/Dollardaodao/volatility-lab"
