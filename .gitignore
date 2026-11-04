@@ -30,3 +30,6 @@ output/
 *.parquet
 *.csv.gz
 *.log
+
+# Chinese report is maintained in the separate private repository
+docs/RESEARCH_REPORT.zh-CN.md

@@ -27,4 +27,4 @@ jobs:
       - name: Rebuild reports and check for drift
         run: |
           python scripts/build_research_report.py
-          git diff --exit-code -- docs/RESEARCH_REPORT.md docs/RESEARCH_REPORT.zh-CN.md
+          git diff --exit-code -- docs/RESEARCH_REPORT.md

@@ -2,7 +2,7 @@
 
 Expiry-matched volatility forecasts and delta-hedged single-option research, with five forecasting models, explicit trading costs, and a chronological walk-forward evaluation.
 
-[Research report](docs/RESEARCH_REPORT.md) · [中文报告](docs/RESEARCH_REPORT.zh-CN.md) · [Reproduction guide](docs/REPRODUCIBILITY.md) · [Published results](reports/oos_2026/)
+[Research report](docs/RESEARCH_REPORT.md) · [Reproduction guide](docs/REPRODUCIBILITY.md) · [Published results](reports/oos_2026/)
 
 ![Five-model forecast and trading comparison](docs/images/oos_model_comparison.png)
 
@@ -69,7 +69,7 @@ The archived full study passed **55 unit tests** and an independent audit of **1
 ```text
 volatility_lab/    Forecasting, data adapters, pricing, replay, study and audit modules
 tests/             Offline numerical, timing, accounting and hedge-schedule tests
-docs/              English and Chinese reports, figures and reproduction notes
+docs/              English report, figures and reproduction notes
 reports/           Aggregate outputs and original run/audit manifests
 scripts/           Report generation and offline release verification
 *_plan*.json       Frozen experiment specifications
