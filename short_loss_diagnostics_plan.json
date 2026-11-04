@@ -1,0 +1,38 @@
+{
+  "thresholds_vol_points": [
+    3,
+    5,
+    8,
+    10
+  ],
+  "directions": [
+    "long",
+    "short"
+  ],
+  "selection": "Same model forecasts, decision-time IV, estimated cost hurdle and known-exercise-risk filter as short_vol_study; higher vol-gap gates only. Independent cohorts permit exact subset reuse of cached cash flows.",
+  "threshold_status": "Post-hoc historical sensitivity requested after inspecting 3-point results; all fixed grid values reported, no independent holdout or selected optimal threshold",
+  "largest_loss_count": 8,
+  "largest_loss_ranking": "Short trades ranked by no-execution-cost net P&L, deduplicated by asset/origin/actual option expiry/strike. Models selecting the same position are listed, not counted as independent losses.",
+  "hedge_frequencies_minutes": [
+    15,
+    60,
+    240,
+    390
+  ],
+  "exit_diagnostics": [
+    "fixed_original_actual_exit",
+    "scheduled_preexpiry_without_proactive_exercise_close"
+  ],
+  "counterfactual_costs": [
+    "observed_costs",
+    "no_execution_cost"
+  ],
+  "exit_override": "Temporarily disable stock_replay.exercise_risk within an isolated worker using unittest.mock.patch. Fixed-exit tests set planned_exit to the original actual exit. Scheduled tests retain the original planned pre-expiry exit. Capital reserve rule and all other financial code remain unchanged.",
+  "risk_caveat": "Disabling proactive exercise close is a mark-to-market diagnostic, not a safe executable strategy; actual American assignment and delivery remain unmodeled.",
+  "capital": "Same 3 times entry 100-share notional. Flag any capital-reserve exit or change in holding period; do not silently treat it as a pure hedging-cost difference.",
+  "cost_audit": "Reconstruct every fill against its contemporaneous cached quote, calculate quote-side spread, added stock slippage, commissions, sell surcharge, and cash flow. Reconcile sums to original results; record financing/borrow separately.",
+  "interval_attribution": "Past-only interim option marks, endpoint observed liquidation mid, previous whole-share hedge, actual stock dividends. Exact option/hedge/dividend P&L; interval attribution is not a pure Greek causal decomposition.",
+  "forecast_comparison": "Reproduce original model forecast to expiry, then use the same ex-ante variance curve for the actual holding window; compare separately with held-window and to-expiry RV.",
+  "no_new_data_purchase": true,
+  "original_results_preserved": true
+}

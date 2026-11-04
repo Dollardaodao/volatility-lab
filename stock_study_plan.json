@@ -1,0 +1,59 @@
+{
+  "universe": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "AMZN",
+    "JPM",
+    "KO"
+  ],
+  "origins": [
+    "2022-01-03",
+    "2022-07-01",
+    "2023-01-03",
+    "2023-07-03",
+    "2024-01-02",
+    "2024-07-01",
+    "2025-01-02",
+    "2025-07-01"
+  ],
+  "target_calendar_dte": [
+    7,
+    30,
+    90
+  ],
+  "dte_tolerance_days": [
+    5,
+    12,
+    25
+  ],
+  "decision_time_new_york": "09:45",
+  "entry_time_new_york": "10:00",
+  "quote_interval": "15m",
+  "hedge_minutes": [
+    15,
+    60
+  ],
+  "exit": "15:45 on the trading session before expiry; first valid subsequent in-session snapshot if unavailable",
+  "contracts_per_leg": 1,
+  "contract_multiplier": 100,
+  "capital_rule": "3 times initial underlying notional per independently funded cohort",
+  "signal_vol_buffer": 0.03,
+  "primary_policies": [
+    "garch_long_flat",
+    "ewma_long_flat",
+    "always_long"
+  ],
+  "exploratory_policy": "garch_long_short with a predeclared early-exercise-risk close rule; not a broker assignment simulation",
+  "forecast_window_returns": 756,
+  "parameters_optimized_on_results": false,
+  "selection": "Available call/put quotes at the origin's 09:45 snapshot; nearest eligible expiry, then nearest paired strike to the observed stock midpoint",
+  "reporting": "Independent cohorts and normalized trade outcomes; no portfolio Sharpe from overlapping tenors",
+  "data_handling_sensitivity": {
+    "name": "zero_bid_writedown",
+    "added_after": "Observed liquidation failures caused by published zero bids, before interpreting aggregate strategy P&L",
+    "rule": "Long unbid legs are valued at zero with an explicit do-not-exercise/abandonment commitment, not recorded as executed sales. A short leg can close against an observed positive ask even if its bid is zero.",
+    "strict_results_retained": true
+  },
+  "greek_missing_quote_policy": "Prefer the current opposite-leg IV for same-strike/same-expiry missing-leg deltas; otherwise a previous valid IV for at most four days. No future data used."
+}

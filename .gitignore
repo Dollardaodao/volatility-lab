@@ -1,0 +1,32 @@
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+build/
+dist/
+.DS_Store
+.mplconfig/
+.cache/
+
+# Local credentials and authenticated sessions
+.env
+.env.*
+!.env.example
+creds.txt
+credentials*.json
+*.pem
+*.key
+
+# Licensed inputs and full research outputs remain local
+data/
+artifacts/
+output/
+*.joblib
+*.pkl
+*.pickle
+*.parquet
+*.csv.gz
+*.log

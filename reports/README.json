@@ -1,0 +1,9 @@
+{
+  "publication_kind": "code, aggregate research analytics and original audit manifests",
+  "raw_market_data_included": false,
+  "per_contract_quotes_and_fills_included": false,
+  "trained_models_included": false,
+  "original_audit_scope": "Complete local books and licensed data; published manifests reference original local run files not redistributed in this repository.",
+  "new_repository_scope": "Standalone copy of volatility_lab only; no parent project files or Git history.",
+  "original_audit_manifest": "oos_2026/verification.json"
+}

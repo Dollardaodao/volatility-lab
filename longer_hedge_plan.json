@@ -1,0 +1,21 @@
+{
+  "source_study": "artifacts/monthly_single_leg",
+  "selected_trades": 990,
+  "signal_lag_minutes": 1,
+  "quote_grid_minutes": 1,
+  "protocols": [
+    {"id": "elapsed_60m", "label": "原60分钟", "frequency": 60, "schedule_kind": "elapsed"},
+    {"id": "elapsed_120m", "label": "2个自然小时", "frequency": 120, "schedule_kind": "elapsed"},
+    {"id": "elapsed_720m", "label": "12个自然小时", "frequency": 720, "schedule_kind": "elapsed"},
+    {"id": "daily_1000", "label": "每日纽约10点", "frequency": 1440, "schedule_kind": "daily_fixed", "daily_time": "10:00"},
+    {"id": "daily_close", "label": "每日收盘前15分钟", "frequency": 1440, "schedule_kind": "daily_close"},
+    {"id": "trading_720m", "label": "累计12个交易小时", "frequency": 720, "schedule_kind": "trading_time"}
+  ],
+  "entry": "Same 990 monthly long single-option trades. Initial stock hedge at first eligible observation after entry, independently of periodic schedule; the entry day counts as the daily schedule's first hedge day.",
+  "exit": "Keep original option entry and planned exit. Retain research capital reserve; flag changed exits. Always close any remaining stock hedge when the option closes, regardless of scheduled hedge time.",
+  "elapsed_hours": "Elapsed calendar minutes including nights and weekends, but orders only at eligible NYSE regular-session observations. Consequently 12 calendar hours normally produces one adjustment near the next open, not an overnight hedge.",
+  "trading_hours": "Accumulate actual within-session time intervals only, excluding overnight and holidays and honoring early exchange closes. Invalid or missing intraday observations do not stop the trading clock; they prevent execution until a later eligible observation.",
+  "daily": "After initial hedge, at most one scheduled attempt per subsequent exchange day, first eligible observation at/after 10:00 New York or official session close minus 15 minutes. No adjustment later that day if a scheduled target required zero shares.",
+  "costs": "Unchanged observed bid/ask, stock/option fees, stock sell surcharge, 1bp extra stock slippage, SOFR spreads, stock borrow and idle-cash benchmark. Zero-execution-cost books use identical actual orders and exits and retain financing, borrow and abandoned-rights writeoffs.",
+  "comparison": "Reproduce all original hourly cash results with the schedule fork before comparing added frequencies. Report full cohort and stock/year/tenor splits; no threshold or instrument reselection, no portfolio netting, no new data purchases. Day and hour schedules were specified before new P&L."
+}

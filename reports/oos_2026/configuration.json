@@ -1,0 +1,231 @@
+{
+  "plan": {
+    "universe": [
+      "AAPL",
+      "MSFT",
+      "NVDA",
+      "AMZN",
+      "JPM",
+      "KO",
+      "AMD",
+      "INTC",
+      "ADBE",
+      "CRM",
+      "QCOM",
+      "XOM",
+      "CVX",
+      "BAC",
+      "WFC",
+      "PEP",
+      "PG",
+      "UNH",
+      "MRK",
+      "DIS"
+    ],
+    "start": "2026-01-01",
+    "end": "2026-07-31",
+    "scan": "First NYSE trading day each calendar month, 09:45 New York; one independent decision per stock/target tenor",
+    "target_calendar_dte": [
+      7,
+      30,
+      90
+    ],
+    "dte_tolerance_days": [
+      5,
+      12,
+      25
+    ],
+    "model": "all five; garch_t used only to construct forecast-independent near-ATM candidate metadata",
+    "model_window_returns": 756,
+    "forecast_horizon_sessions": 150,
+    "selection": "Nearest eligible expiry; nearest available valid strike to decision stock midpoint separately for CALL and PUT. Rank the two individual contracts by forecast_vol minus ask_IV. Buy at most one contract per stock/month/target tenor if the largest gap exceeds 0.03; deterministic CALL tie-break. Never package two legs into a straddle.",
+    "signal_vol_buffer": 0.03,
+    "cost_gate": "No legacy straddle pre-trade cost gate. Entry uses the single-option vol gap only; actual single-option and hedge costs are reported in replay. No ranking on future P&L.",
+    "entry": "10:00 New York after the 09:45 decision; require valid observed chosen-option and stock quotes, otherwise record failed execution and do not switch legs",
+    "exit": "15 minutes before the exchange close on the session before expiry; next eligible liquidation quote if necessary, or explicit zero-bid abandonment at that time. No actual early-exercise simulation.",
+    "contracts": 1,
+    "contract_multiplier": 100,
+    "hedge_minutes": [
+      60,
+      15,
+      5,
+      1
+    ],
+    "signal_lag_minutes": 1,
+    "quote_grid_minutes": 1,
+    "capital": "Independently funded three times entry 100-share underlying notional. Maintain research reserve and report any exit differences. No portfolio return or leverage inference.",
+    "sessions": "NYSE regular sessions; whole-share stock hedges from strictly past single-option market-IV Delta, displayed-size limits; no overnight hedges or interpolation",
+    "costs": "Use the existing StockCosts observed bid/ask, commission, sell surcharge, 1bp slippage, financing and borrow assumptions. Matched midpoint/zero-execution-cost comparison retains financing, cash benchmark, stock borrow and unbid-rights writeoff.",
+    "unsupported_corporate_actions": "Record all candidates crossing an observed split as unsupported adjusted-contract data, without substituting another leg or tenor. Coverage exclusion is disclosed, not a forecast rule.",
+    "research_status": "Chronological 2026 holdout with previously unexamined option P&L; rules fixed before retrieving 2026 decision chains or outcomes. Not a prospective live test. Universe and rules chosen using prior exploratory 2022-2025 work.",
+    "purchase_policy": "Existing authenticated data entitlement only; no purchases or subscription changes",
+    "models": [
+      "garch_t",
+      "ewma",
+      "rolling21",
+      "har_proxy_ridge",
+      "ml_hist_gradient_boosting"
+    ],
+    "training": {
+      "universe": [
+        "AAPL",
+        "MSFT",
+        "NVDA",
+        "AMZN",
+        "JPM",
+        "KO",
+        "AMD",
+        "INTC",
+        "ADBE",
+        "CRM",
+        "QCOM",
+        "XOM",
+        "CVX",
+        "BAC",
+        "WFC",
+        "PEP",
+        "PG",
+        "UNH",
+        "MRK",
+        "DIS"
+      ],
+      "evaluation_start": "2022-01-01",
+      "evaluation_end": "2025-12-31",
+      "label_end_limit": "2025-12-31T23:59:59Z",
+      "refit": "monthly, before the first session 09:45 NY decision; past completed labels only",
+      "training_anchor_window": 756,
+      "min_training_anchors_per_asset": 504,
+      "forward_variance_blocks": [
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          5
+        ],
+        [
+          6,
+          21
+        ],
+        [
+          22,
+          63
+        ],
+        [
+          64,
+          84
+        ]
+      ],
+      "forecast_scoring_horizons_sessions": [
+        5,
+        21,
+        63
+      ],
+      "models": [
+        "garch_t",
+        "ewma",
+        "rolling21",
+        "har_proxy_ridge",
+        "ml_hist_gradient_boosting"
+      ],
+      "har_proxy_ridge": {
+        "alpha": 10.0,
+        "log_target": true,
+        "training_residual_smearing": true
+      },
+      "ml_hist_gradient_boosting": {
+        "loss": "poisson",
+        "learning_rate": 0.05,
+        "max_iter": 150,
+        "max_leaf_nodes": 15,
+        "max_depth": 4,
+        "min_samples_leaf": 100,
+        "l2_regularization": 10.0,
+        "max_bins": 63,
+        "early_stopping": false,
+        "random_state": 7317
+      },
+      "feature_timing": "Prior actual session close. No same-day high, low, close or volume. No option IV input to ML.",
+      "target": "Mean future squared close-to-close log returns within each block, using only blocks fully observed before each fitting cutoff",
+      "variance_floor": 1e-10,
+      "hyperparameter_search": false,
+      "trade_comparison": "Same 480 original candidates; 60-minute hedges, +3 volatility point buffer and unchanged cost gate; strict and zero-bid scenarios separately",
+      "research_status": "Exploratory historical comparison; original 2022-2025 market outcomes have already been examined, so this is not a new untouched holdout",
+      "intraday_limitation": "Training labels are daily squared-return variance proxies, not continuous high-frequency realized variance; HAR model is a proxy version, not original HAR-RV",
+      "model_selection": "All listed models are reported; no winner is selected by trading P&L"
+    },
+    "forecast_scoring_horizons_sessions": [
+      5,
+      21,
+      63
+    ],
+    "protocol_locked_utc": "2026-11-04 19:12:41.193353+00:00",
+    "development_period": "2022-01-01 through 2025-12-31, previously inspected",
+    "fit_protocol": "Monthly walk-forward. Rolling 756 past anchor dates; pooled supervised labels must end no later than prior session close. Matured labels from earlier test months may enter later fits. No hyperparameter or threshold tuning on holdout.",
+    "primary_protocol": "daily_close",
+    "protocols": [
+      {
+        "id": "daily_close",
+        "label": "Daily close minus 15 minutes",
+        "frequency": 1440,
+        "schedule_kind": "daily_close"
+      },
+      {
+        "id": "elapsed_60m",
+        "label": "Every 60 elapsed minutes in regular hours",
+        "frequency": 60,
+        "schedule_kind": "elapsed"
+      }
+    ],
+    "comparison": "Same 420 opportunities per model. All five models disclosed. Flat opportunities count as zero trading P&L. Each unique selected option replayed once and joined to models selecting it: forecast affects entry only; market-IV Delta and exits are common.",
+    "last_available_daily_date": "2026-11-02",
+    "holdout_window_rationale": "July last origin plus maximum admissible 115 calendar-day expiry is fully observed by 2026-11-02; no selection of origins based on their returns.",
+    "forecast_scoring": "All stock-month 5/21/63-session forecasts independently of entry signals; daily squared-return proxy QLIKE and MAE. Separate executed-trade 15-minute plus overnight RV versus actual entry ask-IV hit rate."
+  },
+  "source_hashes": {
+    "oos_single_leg.py": "3c714080796a909ad257e9c40e9009f29a04d56001c2b83e5be3002d10e95a8e",
+    "forecast.py": "0df51449611e3838a76d599ada2f4bb8e1fd52c219ac5ea36b63a2e9b769e6c1",
+    "ml_vol.py": "a00672a0e4d5d360c8d89459293c0b2bdbdbd90128be35c88b519286a05d51ca",
+    "ml_study.py": "a0473b155f1e688f9dc9cb6dacc662b46d16c71d45f403674ee6002249918918",
+    "monthly_single_leg_acquire.py": "e58f4e23b6b0746f064d9170b111612b209ec1a915bd61961bb6b7e00fa8f7d5",
+    "monthly_single_leg_study.py": "b7109dcaa88c1ac90ada835787490238cb87fc8573594a81e4347b86bf389e24",
+    "scheduled_single_leg_replay.py": "bf80e5d38343d2af3ab8b7c519a7b2f36104daf258a1ebb1319b7c264f0ef396",
+    "single_leg_counterfactual.py": "7a5e545bd7e604dc22bd1046a152daf9192a2e818919df991594f990150279ba",
+    "stock_replay.py": "5ee977d7a10dee1295742fe72544bbc8cf2cdaea1ad5ef8fb976762ca67da40b",
+    "stock_market.py": "5c12fcf0820ab38d14796dac297434de6870ba6246bcf86e5d22cad6aca9232b",
+    "american.py": "48b0b96152b1b1a2f5f05f7e732e5d35d046f2190fbb82f9a6c106965bcbba1b",
+    "theta.py": "403e5e49be60e2911860b9c7b7d48fcec55511806e4b495d86b1f8090fb684a7"
+  },
+  "daily_hashes": {
+    "AAPL": "dac7da83d74a98c2b29de518e2ef2ad9c500cc75e3eb14bf8c9f10dff213bf09",
+    "MSFT": "493a84e831fb32e53b2491fcfc1b0fd6653b3d74140f91fbf66fe8874f89dacf",
+    "NVDA": "199eee55eeab017f7a576a7897526fc6a3cf34923dfb54eb38c5b6ff6b6dea6d",
+    "AMZN": "3d9ae93a28561c9e685dc52334218357c1a380dff81d75ea3d2485facd164af1",
+    "JPM": "02e4daad10dcf5c7dfae2aeb535166d53cb7429d73935fc6575fa069110b266e",
+    "KO": "3b75ca83dc0fffbc31105e9b328e6c596553cb92ac3275527f1039b897e1a5d1",
+    "AMD": "30fab8714a79e4b6710196e923f5dbef66b05c8b8591156001758ce6dd3abbce",
+    "INTC": "518779a4d7bdb7c2a2b991116b7451ba333b8cc48e7c818e67c574ad7a5840cd",
+    "ADBE": "60c42488b85ce29c9c73a0060af6fe6220f774dbec42d7fd1110d081af992f5d",
+    "CRM": "0c793f4dc3bf662359b8ad4db797ebad4de9842c7643e013f6bd3af1c0b2158b",
+    "QCOM": "cfa46bdefb14d14953c6de620dc775c07374a6e8ddbf78ebbeaf290272018f0a",
+    "XOM": "1256c6c4bc09509bd4f810d9c7f10da94862fac103dff52df82b2474ad5a8b66",
+    "CVX": "5c793aa55d918a96d630ea5d616892e60ca7a884bff6b9e43be78a0370ce0e70",
+    "BAC": "0199c998206dffbb0bd8a76167af2e34fb5122a9bd0d1f1ce690b4df49f38b23",
+    "WFC": "18ee5736d33f89fd16ce031a3d900999c0a499c95b27486afceb30c1fb256b5c",
+    "PEP": "c0b7af820e2a644aeca52cd65344e4b2190ea39e76ff4e1d2f94690211d67dc5",
+    "PG": "b075cb3be5374cb94ffc053b51a86eba87b4fa0735a36d1001c2d52d6c4382bc",
+    "UNH": "1357f23c1d0e5039eb8a1d633ee78adae5ff5ba620e5f96a55b15d60ce24aa80",
+    "MRK": "6f81545128a038fd29f02d7a5b5c49aa89e7acaf4b1fce522532566972983d6f",
+    "DIS": "7949cd53891931f9f8664d728528a42f2174ae85b03fa106b4667caf67b6a099"
+  },
+  "cost_plan_sha256": "82e15a5fa8fd04bb130c36589e2ea86bf0e06d16f4170ece130b25f6f57e8ae8",
+  "sofr_sha256": "6d08385e61b212013e0d18a3614e3f376b1c78370baee4122364657b816319ac",
+  "dependencies": {
+    "numpy": "2.5.4",
+    "pandas": "3.1.0",
+    "arch": "8.0.0",
+    "scikit-learn": "1.9.1",
+    "QuantLib": "1.44"
+  }
+}

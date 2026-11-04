@@ -1,0 +1,6 @@
+model,mean_qlike_difference_vs_garch,months_better_than_garch,months
+garch_t,0.0,0,7
+ewma,0.09831470211744432,3,7
+rolling21,0.16080690832554181,2,7
+har_proxy_ridge,0.009412150981035709,3,7
+ml_hist_gradient_boosting,-9.654925097493952e-05,4,7

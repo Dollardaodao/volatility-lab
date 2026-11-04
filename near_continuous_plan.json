@@ -1,0 +1,31 @@
+{
+  "cases": [
+    "AMZN_2022-01-03_90d",
+    "AMZN_2022-01-03_30d",
+    "NVDA_2025-01-02_30d"
+  ],
+  "quote_grid_minutes": 1,
+  "frequencies_minutes": [
+    60,
+    15,
+    5,
+    1
+  ],
+  "signal_lags_minutes": [
+    15,
+    1
+  ],
+  "cost_scenarios": [
+    "observed_costs",
+    "no_execution_cost"
+  ],
+  "entries_exits": "Keep the original selected short positions and actual entry/exit times. Disable exercise-risk close for conditional attribution; retain research capital rule and flag any early exit.",
+  "signals": "Past market-implied American-option Greeks at exactly t minus the chosen lag; require valid past and current stock quotes. No same-bar hedge signal.",
+  "sizing": "Original whole-share rounding, one call plus one put, capital three times initial 100-share stock notional",
+  "pricing": "Same Bjerksund-Stensland engine, past-only dividend yield and rate, opposite-leg IV or past IV carry. Recompute sequentially on true one-minute observations.",
+  "comparison": "Compare archived 15m grid/60m hedge/15m lag, new 1m quotes subsampled to 15m, and the full 1m grid. Disclose any historical quote revisions and Greek-carry differences.",
+  "sessions": "NYSE regular sessions only; no overnight hedges. Finer regular-hours hedging cannot eliminate overnight jumps.",
+  "limits": "A 1-minute grid, 1-minute signal delay and whole shares are not literal continuous hedging. No interpolation or simulated sub-minute prices. Snapshot tick freshness and actual assignment remain unobserved.",
+  "study_status": "Conditional diagnostics on three previously inspected losing trades, not a fresh strategy profitability test",
+  "purchase_policy": "Use existing authenticated entitlement only; no subscription upgrades or purchases"
+}

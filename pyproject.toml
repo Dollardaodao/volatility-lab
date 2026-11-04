@@ -1,0 +1,24 @@
+[project]
+name = "volatility-lab"
+version = "0.1.0"
+description = "Expiry-matched volatility forecasts and an auditable gamma-scalping research pilot"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = ["numpy>=2", "pandas>=2.2", "scipy>=1.15", "arch>=7.2", "yfinance>=0.2", "matplotlib>=3.9", "exchange-calendars>=4.5", "requests>=2.32"]
+
+[project.optional-dependencies]
+theta = ["thetadata>=1.0.9; python_version >= '3.12'", "python-dotenv>=1"]
+stock-study = ["QuantLib>=1.40", "thetadata>=1.0.9; python_version >= '3.12'", "python-dotenv>=1"]
+ml = ["scikit-learn>=1.7,<2", "QuantLib>=1.40", "thetadata>=1.0.9; python_version >= '3.12'", "python-dotenv>=1"]
+test = ["scikit-learn>=1.7,<2", "QuantLib>=1.40", "python-dotenv>=1", "joblib>=1.4", "threadpoolctl>=3.5"]
+
+[project.urls]
+Repository = "https://github.com/Dollardaodao/volatility-lab"
+Report = "https://github.com/Dollardaodao/volatility-lab/blob/main/docs/RESEARCH_REPORT.md"
+
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["volatility_lab*"]

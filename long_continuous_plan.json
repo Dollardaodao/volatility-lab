@@ -1,0 +1,19 @@
+{
+  "selection": "All 22 active original six-stock GARCH long-flat trades, 60-minute entry cost hurdle, zero-bid writedown scenario; no re-selection at other hedge frequencies",
+  "source_results": "artifacts/stock_study/all_results.csv",
+  "source_manifest": "artifacts/stock_study_acquisition.json",
+  "policy": "garch_long_flat",
+  "source_cost_scenario": "zero_bid_writedown",
+  "source_hedge_minutes": 60,
+  "expected_trades": 22,
+  "side": 1,
+  "frequencies_minutes": [60, 15, 5, 1],
+  "signal_lags_minutes": [15, 1],
+  "cost_scenarios": ["observed_costs", "no_execution_cost"],
+  "entries_exits": "One long call plus one long put. Freeze original entries and actual exits, retain original capital reserve, flag any changed exit. Long positions have no short exercise-risk trigger.",
+  "signals": "Strictly past market-implied American Delta, evaluated separately at t-15m and t-1m; current and signal stock quotes must pass filters. Whole shares, displayed size limits.",
+  "sessions": "NYSE regular sessions only; overnight jumps retained. No interpolation or simulated sub-minute prices.",
+  "cost_definition": "Historical bid/ask plus original assumed fees/slippage versus midpoint executable orders with no execution costs. Both retain financing, stock borrow, idle-cash benchmark, and zero recovery for unbid abandoned long rights.",
+  "scope": "Conditional comparison of all original selected long trades, not a new blind holdout, new model fit, portfolio backtest, or re-optimized entry threshold.",
+  "purchase_policy": "Use existing authenticated Theta entitlement; no purchases or subscription changes"
+}

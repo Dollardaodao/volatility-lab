@@ -1,0 +1,89 @@
+{
+  "universe": [
+    "AAPL",
+    "MSFT",
+    "NVDA",
+    "AMZN",
+    "JPM",
+    "KO",
+    "AMD",
+    "INTC",
+    "ADBE",
+    "CRM",
+    "QCOM",
+    "XOM",
+    "CVX",
+    "BAC",
+    "WFC",
+    "PEP",
+    "PG",
+    "UNH",
+    "MRK",
+    "DIS"
+  ],
+  "evaluation_start": "2022-01-01",
+  "evaluation_end": "2025-12-31",
+  "label_end_limit": "2025-12-31T23:59:59Z",
+  "refit": "monthly, before the first session 09:45 NY decision; past completed labels only",
+  "training_anchor_window": 756,
+  "min_training_anchors_per_asset": 504,
+  "forward_variance_blocks": [
+    [
+      1,
+      1
+    ],
+    [
+      2,
+      5
+    ],
+    [
+      6,
+      21
+    ],
+    [
+      22,
+      63
+    ],
+    [
+      64,
+      84
+    ]
+  ],
+  "forecast_scoring_horizons_sessions": [
+    5,
+    21,
+    63
+  ],
+  "models": [
+    "garch_t",
+    "ewma",
+    "rolling21",
+    "har_proxy_ridge",
+    "ml_hist_gradient_boosting"
+  ],
+  "har_proxy_ridge": {
+    "alpha": 10.0,
+    "log_target": true,
+    "training_residual_smearing": true
+  },
+  "ml_hist_gradient_boosting": {
+    "loss": "poisson",
+    "learning_rate": 0.05,
+    "max_iter": 150,
+    "max_leaf_nodes": 15,
+    "max_depth": 4,
+    "min_samples_leaf": 100,
+    "l2_regularization": 10.0,
+    "max_bins": 63,
+    "early_stopping": false,
+    "random_state": 7317
+  },
+  "feature_timing": "Prior actual session close. No same-day high, low, close or volume. No option IV input to ML.",
+  "target": "Mean future squared close-to-close log returns within each block, using only blocks fully observed before each fitting cutoff",
+  "variance_floor": 1e-10,
+  "hyperparameter_search": false,
+  "trade_comparison": "Same 480 original candidates; 60-minute hedges, +3 volatility point buffer and unchanged cost gate; strict and zero-bid scenarios separately",
+  "research_status": "Exploratory historical comparison; original 2022-2025 market outcomes have already been examined, so this is not a new untouched holdout",
+  "intraday_limitation": "Training labels are daily squared-return variance proxies, not continuous high-frequency realized variance; HAR model is a proxy version, not original HAR-RV",
+  "model_selection": "All listed models are reported; no winner is selected by trading P&L"
+}
