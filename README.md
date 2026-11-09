@@ -2,7 +2,7 @@
 
 Expiry-matched volatility forecasts and delta-hedged single-option research, with five forecasting models, explicit trading costs, and a chronological walk-forward evaluation.
 
-[Research report](docs/RESEARCH_REPORT.md) · [Historical signal tests](docs/HISTORICAL_VOLATILITY_SIGNALS.md) · [Reproduction guide](docs/REPRODUCIBILITY.md) · [Published results](reports/oos_2026/)
+[Strategy and findings](docs/HISTORICAL_VOLATILITY_SIGNALS.md) · [Original 2026 study](docs/RESEARCH_REPORT.md) · [Reproduction guide](docs/REPRODUCIBILITY.md) · [Published results](reports/oos_2026/)
 
 ![Five-model forecast and trading comparison](docs/images/oos_model_comparison.png)
 
